@@ -1,21 +1,43 @@
-# Codex CLI Configuration
-# This configuration uses ChatGPT subscription, you'd need to run 'codex login'.
+# Codex CLI Configuration - ChatGPT Direct
+# This configuration uses your ChatGPT subscription directly
+# Prerequisites:
+#   - Active ChatGPT Plus or Team subscription
+#   - Run 'codex login' to authenticate
+# Documentation: https://developers.openai.com/codex/cli/
+
+# Model Configuration
+# Available models with ChatGPT subscription:
+#   - gpt-5-codex: Latest reasoning model
+#   - gpt-4o: Fast and capable
+#   - gpt-4o-mini: Efficient and cost-effective
 model = "gpt-5-codex"
-model_reasoning_summary = "detailed"
+
+# Reasoning Settings (for reasoning-capable models)
+model_reasoning_summary = "detailed"  # auto, concise, detailed, none
+model_reasoning_effort = "high"       # minimal, low, medium, high
+
+# Display Settings
 show_raw_agent_reasoning = true
 model_verbosity = "medium"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-model_reasoning_effort = "high"
 
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+

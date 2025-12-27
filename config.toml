@@ -1,34 +1,99 @@
 # Codex CLI Configuration
 # This configuration uses LiteLLM as the model provider gateway
 # See: https://docs.litellm.ai/docs/simple_proxy
+
+# Core Model Settings
+# Model to use - available models depend on your provider
+# Common options: gpt-5, gpt-5.2, gpt-4o, claude-opus-4.5, etc.
 model = "gpt-5.2"
+
+# Provider for the model (must match a key in [model_providers])
 model_provider = "github"
+
+# Reasoning model settings (for models that support extended thinking)
+# Options: "auto", "concise", "detailed", "none"
 model_reasoning_summary = "detailed"
+
+# Show internal agent reasoning (helpful for debugging)
 show_raw_agent_reasoning = false
+
+# Verbosity level for model outputs
+# Options: "quiet", "normal", "medium", "verbose"
 model_verbosity = "medium"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
+
+# Reasoning effort for compatible models (o3, gpt-5, etc.)
+# Options: "minimal", "low", "medium", "high"
+# Higher effort = more thorough reasoning but slower responses
 model_reasoning_effort = "high"
 
+# Security & Execution Settings
+# Approval policy controls when you're prompted to approve commands
+# Options:
+#   - "untrusted": Prompt for all untrusted commands (safest)
+#   - "on-request": Model decides when to ask
+#   - "on-failure": Only prompt when commands fail
+#   - "never": Auto-approve all (use with caution)
+approval_policy = "on-request"
+
+# Sandbox mode controls what the model can do
+# Options:
+#   - "read-only": Can only read files, no writes or network
+#   - "workspace-write": Can write in workspace, network configurable
+#   - "danger-full-access": Full system access (containers only!)
+sandbox_mode = "workspace-write"
+
+# Feature Flags
 [features]
+# Enable skills system for discoverable instruction bundles
 skills = true
 
+# Workspace Write Sandbox Configuration
 [sandbox_workspace_write]
+# Allow network access from sandbox commands
 network_access = true
+
+# Enable streamable shell output for long-running commands
 streamable_shell = true
 
-# Model providers (LiteLLM as Github Copilot proxy)
+# Model Providers Configuration
+# LiteLLM as Github Copilot proxy (default)
 [model_providers.github]
 name     = "OpenAI"
 base_url = "http://localhost:4000"
 http_headers = { "Authorization"= "Bearer sk-dummy"}
 wire_api = "chat"
 
-# MCP Tools
-# [mcp_servers.claude] # Migrated to skills
-# command = "claude"
-# args = ["mcp", "serve"]
+# MCP (Model Context Protocol) Servers
+# Extend Codex with additional tools and capabilities
 
+# Chrome DevTools integration
+# Provides browser automation and testing capabilities
 [mcp_servers.chrome]
 command = "npx"
 args = ["chrome-devtools-mcp@latest"]
+
+# Claude Code MCP (commented out - migrated to skills)
+# Uncomment if you want Claude Code as an MCP server instead of a skill
+# [mcp_servers.claude]
+# command = "claude"
+# args = ["mcp", "serve"]
+
+# Additional MCP server examples (uncomment to use):
+
+# Context7 - Smart context management
+# [mcp_servers.context7]
+# command = "npx"
+# args = ["-y", "@upstash/context7-mcp@latest"]
+
+# Exa Search - Advanced web search
+# [mcp_servers.exa]
+# command = "npx"
+# args = ["-y", "@upstash/exa-mcp@latest"]
+
+# Shell Environment Policy
+# Controls which environment variables are passed to subprocesses
+# [shell_environment_policy]
+# inherit = "core"  # Options: "all", "core", "none"
+# exclude = ["AWS_*", "AZURE_*"]  # Patterns to exclude
+# set = { CI = "1" }  # Force-set values
+

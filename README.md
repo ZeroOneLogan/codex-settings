@@ -1,20 +1,64 @@
 # OpenAI Codex CLI Settings and Custom Prompts
 
-A curated collection of configurations, skills and custom prompts for [OpenAI Codex CLI](https://github.com/openai/codex), designed to enhance your development workflow with various model providers and reusable prompt templates.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/ZeroOneLogan/codex-settings.svg)](https://github.com/ZeroOneLogan/codex-settings/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/ZeroOneLogan/codex-settings.svg)](https://github.com/ZeroOneLogan/codex-settings/issues)
 
-> For Claude Code settings, skills, agents and custom commands, please refer [feiskyer/claude-code-settings](https://github.com/feiskyer/claude-code-settings).
+A curated collection of configurations, skills and custom prompts for
+[OpenAI Codex CLI](https://github.com/openai/codex), designed to enhance your
+development workflow with various model providers and reusable prompt templates.
+
+> For Claude Code settings, skills, agents and custom commands, please refer
+> [feiskyer/claude-code-settings](https://github.com/feiskyer/claude-code-settings).
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+  - [Installation](#installation)
+  - [Basic Configuration](#basic-configuration)
+- [Configuration Files](#configuration-files)
+  - [Main Configuration](#main-configuration)
+  - [Alternative Configurations](#alternative-configurations)
+- [Custom Prompts](#custom-prompts)
+  - [Creating Custom Prompts](#creating-custom-prompts)
+- [Skills (Experimental)](#skills-experimental)
+  - [How to Use Skills](#how-to-use-skills)
+  - [Available Skills](#available-skills)
+- [Configuration Options](#configuration-options)
+  - [Approval Policies](#approval-policies)
+  - [Sandbox Modes](#sandbox-modes)
+  - [Reasoning Settings](#reasoning-settings)
+  - [Shell Environment](#shell-environment)
+- [Advanced Features](#advanced-features)
+  - [Profiles](#profiles)
+  - [MCP Servers](#mcp-servers)
+- [Project Documentation](#project-documentation)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [References](#references)
+- [Contributing](#contributing)
+- [Community](#community)
+- [License](#license)
 
 ## Overview
 
 This repository provides:
 
-- **Flexible Configuration**: Support for multiple model providers (LiteLLM/Copilot proxy, ChatGPT subscription, Azure OpenAI, OpenRouter, ModelScope, Kimi)
+- **Flexible Configuration**: Support for multiple model providers
+  (LiteLLM/Copilot proxy, ChatGPT subscription, Azure OpenAI, OpenRouter,
+  ModelScope, Kimi)
 - **Custom Prompts**: Reusable prompt templates for common development tasks
-- **Skills (Experimental)**: Discoverable instruction bundles for specialized tasks (image generation, YouTube transcription, spec-driven workflows)
-- **Best Practices**: Pre-configured settings optimized for development workflows
+- **Skills (Experimental)**: Discoverable instruction bundles for specialized
+  tasks (image generation, YouTube transcription, spec-driven workflows)
+- **Best Practices**: Pre-configured settings optimized for development
+  workflows
 - **Easy Setup**: Simple installation and configuration process
 
 ## Quick Start
+
+Need help getting started? Check out our
+[Quick Start Guide](examples/quick-start.md) for a step-by-step walkthrough.
 
 ### Installation
 
@@ -23,10 +67,13 @@ This repository provides:
 mv ~/.codex ~/.codex.bak
 
 # Clone this repository to ~/.codex
-git clone https://github.com/feiskyer/codex-settings.git ~/.codex
+git clone https://github.com/ZeroOneLogan/codex-settings.git ~/.codex
 
 # Or symlink if you prefer to keep it elsewhere
 ln -s /path/to/codex-settings ~/.codex
+
+# Verify your installation
+~/.codex/scripts/verify-setup.sh
 ```
 
 ### Basic Configuration
@@ -40,7 +87,7 @@ The default `config.toml` uses LiteLLM as a gateway. To use it:
    npm install -g @openai/codex
    ```
 
-1. Create a LiteLLM config file (full example [litellm_config.yaml](litellm_config.yaml)):
+2. Create a LiteLLM config file (full example [litellm_config.yaml](litellm_config.yaml)):
 
    ```yaml
    general_settings:
@@ -116,17 +163,33 @@ codex
 
 ## Custom Prompts
 
-Custom prompts are stored in the `prompts/` directory. Access them via the `/prompts:` slash menu in Codex.
+Custom prompts are stored in the `prompts/` directory. Access them via the
+`/prompts:` slash menu in Codex.
 
-- `/prompts:deep-reflector` - Analyze development sessions to extract learnings, patterns, and improvements for future interactions.
-- `/prompts:insight-documenter [breakthrough]` - Capture and document significant technical breakthroughs into reusable knowledge assets.
-- `/prompts:instruction-reflector` - Analyze and improve Codex instructions in AGENTS.md based on conversation history.
-- `/prompts:github-issue-fixer [issue-number]` - Systematically analyze, plan, and implement fixes for GitHub issues with PR creation.
-- `/prompts:github-pr-reviewer [pr-number]` - Perform thorough GitHub pull request code analysis and review.
-- `/prompts:ui-engineer [requirements]` - Create production-ready frontend solutions with modern UI/UX standards.
-- `/prompts:prompt-creator [requirements]` - Create Codex custom prompts with proper structure and best practices.
+**Available Prompts:**
+
+- `/prompts:deep-reflector` - Analyze development sessions to extract
+  learnings, patterns, and improvements for future interactions.
+- `/prompts:insight-documenter [breakthrough]` - Capture and document
+  significant technical breakthroughs into reusable knowledge assets.
+- `/prompts:instruction-reflector` - Analyze and improve Codex instructions in
+  AGENTS.md based on conversation history.
+- `/prompts:github-issue-fixer [issue-number]` - Systematically analyze, plan,
+  and implement fixes for GitHub issues with PR creation.
+- `/prompts:github-pr-reviewer [pr-number]` - Perform thorough GitHub pull
+  request code analysis and review.
+- `/prompts:ui-engineer [requirements]` - Create production-ready frontend
+  solutions with modern UI/UX standards.
+- `/prompts:prompt-creator [requirements]` - Create Codex custom prompts with
+  proper structure and best practices.
 
 ### Creating Custom Prompts
+
+Want to create your own prompts? Check our
+[Custom Prompt Template Guide](examples/custom-prompt-template.md) for detailed
+examples and best practices.
+
+**Quick Steps:**
 
 1. Create a new `.md` file in `~/.codex/prompts/`
 2. Use argument placeholders:
@@ -384,7 +447,156 @@ args = ["-y", "@upstash/context7-mcp@latest"]
 
 ## Project Documentation
 
-Codex automatically reads `AGENTS.md` files in your project to understand context. Please always create one in your project root with `/init` command on your first codex run.
+Codex automatically reads `AGENTS.md` files in your project to understand
+context. Please always create one in your project root with `/init` command on
+your first codex run.
+
+## Troubleshooting
+
+### Common Issues
+
+#### LiteLLM Connection Failed
+
+**Problem**: Cannot connect to LiteLLM proxy at `http://localhost:4000`
+
+**Solutions**:
+1. Verify LiteLLM is running: `ps aux | grep litellm`
+2. Start LiteLLM: `litellm --config ~/.codex/litellm_config.yaml`
+3. Check the port is correct in `config.toml`
+4. Ensure no firewall is blocking port 4000
+
+#### API Key Issues
+
+**Problem**: Authentication errors with model providers
+
+**Solutions**:
+1. Verify API key is set correctly in environment
+2. Check API key has not expired
+3. Ensure proper permissions for the API key
+4. Review the provider-specific configuration
+
+#### Prompts Not Loading
+
+**Problem**: Custom prompts don't appear in slash menu
+
+**Solutions**:
+1. Verify files are in `~/.codex/prompts/` directory
+2. Check files have `.md` extension
+3. Restart Codex to reload prompts
+4. Verify no syntax errors in prompt files
+
+#### Skills Not Detected
+
+**Problem**: Skills are not recognized
+
+**Solutions**:
+1. Ensure `SKILL.md` file exists in skill directory
+2. Check frontmatter format is correct
+3. Verify `features.skills = true` in config
+4. Restart Codex to reload skills
+
+#### Sandbox Permission Errors
+
+**Problem**: Commands fail with permission errors
+
+**Solutions**:
+1. Check `sandbox_mode` setting in config
+2. Adjust `approval_policy` if needed
+3. Review `shell_environment_policy` settings
+4. Consider using `workspace-write` mode for development
+
+### Getting Help
+
+1. Check the [official documentation](https://developers.openai.com/codex/cli/)
+2. Search existing [GitHub issues](https://github.com/ZeroOneLogan/codex-settings/issues)
+3. Review the [FAQ](#faq) below
+4. Open a new issue with details about your problem
+
+## FAQ
+
+### General Questions
+
+**Q: What is the difference between prompts and skills?**
+
+A: Prompts are simple text templates with argument substitution, accessed via
+`/prompts:name`. Skills are more complex instruction bundles with metadata,
+helper files, and policies, accessed via `$skill-name`.
+
+**Q: Can I use multiple model providers?**
+
+A: Yes! You can switch between configurations by copying different config files
+from `configs/` to `config.toml`, or use profiles with `codex --profile`.
+
+**Q: Do I need LiteLLM?**
+
+A: Not necessarily. LiteLLM is used as a gateway in the default config, but
+you can use direct provider configurations (like `configs/chatgpt.toml`).
+
+**Q: How do I update to the latest version?**
+
+A: Run `git pull` in your `~/.codex` directory to get the latest changes.
+
+### Configuration Questions
+
+**Q: Which approval policy should I use?**
+
+A: For maximum safety, use `untrusted`. For convenience during development,
+use `on-request`. Only use `never` in fully trusted, isolated environments.
+
+**Q: What's the difference between sandbox modes?**
+
+A: `read-only` prevents any writes, `workspace-write` allows writing within
+the workspace, and `danger-full-access` gives complete system access (use in
+containers only).
+
+**Q: How do I add my own custom prompt?**
+
+A: Create a `.md` file in `~/.codex/prompts/` with your prompt text. Use `$1`,
+`$2`, etc. for arguments. Restart Codex to load it.
+
+### Model Provider Questions
+
+**Q: Which model provider is best?**
+
+A: It depends on your needs. See our [comparison guide](docs/comparison.md) for
+detailed analysis:
+- **GitHub Copilot**: Best integration, multiple models, requires subscription
+- **ChatGPT**: Direct access, good for personal use
+- **Azure OpenAI**: Enterprise features, data residency, security controls
+- **OpenRouter**: Many model options, pay-per-use
+
+**Q: Can I use GPT-5/reasoning models?**
+
+A: Yes, configure `model_reasoning_effort` and `model_reasoning_summary` in
+your config. Available with supported providers and models.
+
+**Q: How do I switch between models?**
+
+A: Change the `model` value in `config.toml` or use different profiles with
+`codex --profile <name>`.
+
+### Skills Questions
+
+**Q: How do I create my own skill?**
+
+A: Create a directory under `skills/` with a `SKILL.md` file containing
+frontmatter and instructions. See [CONTRIBUTING.md](CONTRIBUTING.md) for
+detailed guidelines.
+
+**Q: Why isn't my skill working?**
+
+A: Verify the `SKILL.md` frontmatter is correct, the skill is enabled in
+config, and check for any policy restrictions in `policy/`.
+
+**Q: Can skills call other skills?**
+
+A: Yes, skills can reference and invoke other skills within their instructions.
+
+**Q: How does Codex CLI compare to other AI coding assistants?**
+
+A: See our comprehensive [comparison guide](docs/comparison.md) comparing Codex
+CLI with GitHub Copilot, Claude Code, Cursor, and Aider. Each tool has different
+strengths - choose based on your workflow and needs.
 
 ## References
 
@@ -394,13 +606,25 @@ Codex automatically reads `AGENTS.md` files in your project to understand contex
 
 ## Contributing
 
-Contributions welcome! Feel free to:
+Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for
+detailed guidelines.
+
+Feel free to:
 
 - Add new custom prompts
 - Share alternative configurations
 - Improve documentation
 - Report issues and suggest features
+- Create new skills
+
+## Community
+
+- 🌟 Star this repository if you find it useful
+- 🐛 [Report issues](https://github.com/ZeroOneLogan/codex-settings/issues)
+- 💡 [Share ideas](https://github.com/ZeroOneLogan/codex-settings/discussions)
+- 🤝 [Contribute](CONTRIBUTING.md)
 
 ## LICENSE
 
 This project is released under MIT License - See [LICENSE](LICENSE) for details.
+

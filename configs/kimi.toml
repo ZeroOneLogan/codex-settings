@@ -1,25 +1,47 @@
-# Codex CLI Configuration
-# This configuration uses Kimi, remember to replace your own API key.
+# Codex CLI Configuration - Kimi (Moonshot AI)
+# This configuration uses Kimi by Moonshot AI (Chinese AI company)
+# Prerequisites:
+#   - Moonshot AI API key
+#   - Get your key from: https://platform.moonshot.cn/
+# Documentation: https://platform.moonshot.cn/docs
+
+# Model Configuration
+# Available models:
+#   - kimi-k2-0905-preview: Latest model with 256K context
+#   - kimi-k1-pro: Professional model
 model = "kimi-k2-0905-preview"
 model_provider = "kimi"
-model_context_window = 256000
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
 
+# Context window size (tokens)
+# Kimi supports very large context windows
+model_context_window = 256000
+
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
+# Kimi Provider Configuration
 [model_providers.kimi]
 name     = "Kimi"
 base_url = "https://api.moonshot.cn/v1"
+# Replace [YOUR-API-KEY] with your Moonshot AI API key
 http_headers = { "Authorization"= "Bearer [YOUR-API-KEY]"}
 wire_api = "chat"
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+

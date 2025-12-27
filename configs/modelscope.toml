@@ -1,24 +1,44 @@
-# Codex CLI Configuration
-# This configuration uses Model Scope, remember to replace your own API key.
+# Codex CLI Configuration - ModelScope
+# This configuration uses ModelScope (Alibaba Cloud's AI platform)
+# Prerequisites:
+#   - ModelScope API key
+#   - Get your key from: https://modelscope.cn/
+# Documentation: https://modelscope.cn/docs
+
+# Model Configuration
+# Available models on ModelScope:
+#   - ZhipuAI/GLM-4.5: Zhipu AI's latest model
+#   - Qwen/Qwen-2.5: Alibaba's Qwen model
+#   - DeepSeek/DeepSeek-V3: DeepSeek's latest
 model = "ZhipuAI/GLM-4.5"
 model_provider = "modelscope"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
 
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
+# ModelScope Provider Configuration
 [model_providers.modelscope]
 name = "modelscope"
 wire_api = "chat"
 base_url = "https://api-inference.modelscope.cn/v1"
+# Replace [YOUR-API-KEY] with your ModelScope API key
 http_headers = { "Authorization"= "Bearer [YOUR-API-KEY]" }
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+
