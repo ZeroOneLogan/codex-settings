@@ -1,28 +1,51 @@
-# Codex CLI Configuration
-# This configuration uses OpenRouter, remember to replace your own API key.
+# Codex CLI Configuration - OpenRouter
+# This configuration uses OpenRouter to access multiple AI models
+# Prerequisites:
+#   - OpenRouter account (https://openrouter.ai/)
+#   - API key from OpenRouter dashboard
+# Documentation: https://openrouter.ai/docs
+
+# Model Configuration
+# Available models: gpt-5, claude-opus-4.5, gemini-pro, etc.
+# See: https://openrouter.ai/models for full list
 model = "gpt-5"
 model_provider = "openrouter"
-model_reasoning_summary = "detailed"
+
+# Reasoning Settings (for reasoning-capable models)
+model_reasoning_summary = "detailed"  # auto, concise, detailed, none
+model_reasoning_effort = "high"       # minimal, low, medium, high
+
+# Display Settings
 show_raw_agent_reasoning = true
 model_verbosity = "medium"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-model_reasoning_effort = "high"
 
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
+# OpenRouter Provider Configuration
 [model_providers.openrouter]
 name     = "OpenRouter"
 base_url = "https://openrouter.ai/api/v1"
+# Replace [YOUR-API-KEY] with your OpenRouter API key
+# Get your key from: https://openrouter.ai/keys
 http_headers = { "Authorization"= "Bearer [YOUR-API-KEY]"}
 wire_api = "chat"
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+

@@ -71,6 +71,9 @@ git clone https://github.com/ZeroOneLogan/codex-settings.git ~/.codex
 
 # Or symlink if you prefer to keep it elsewhere
 ln -s /path/to/codex-settings ~/.codex
+
+# Verify your installation
+~/.codex/scripts/verify-setup.sh
 ```
 
 ### Basic Configuration

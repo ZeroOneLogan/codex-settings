@@ -1,29 +1,54 @@
-# Codex CLI Configuration
-# This configuration uses Azure OpenAI service, remember to replace your own instance name and API key.
+# Codex CLI Configuration - Azure OpenAI
+# This configuration uses Azure OpenAI service
+# Prerequisites:
+#   - Azure OpenAI resource deployed
+#   - API key from Azure portal
+#   - Deployment name for your model
+# Documentation: https://learn.microsoft.com/en-us/azure/ai-services/openai/
+
+# Model Configuration
+# Use your Azure deployment name (e.g., "gpt-5", "gpt-4o")
 model = "gpt-5"
 model_provider = "azure"
-model_reasoning_summary = "detailed"
+
+# Reasoning Settings (for reasoning-capable models)
+model_reasoning_summary = "detailed"  # auto, concise, detailed, none
+model_reasoning_effort = "high"       # minimal, low, medium, high
+
+# Display Settings
 show_raw_agent_reasoning = true
 model_verbosity = "medium"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-model_reasoning_effort = "high"
 
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
+# Azure OpenAI Provider Configuration
 [model_providers.azure]
 name = "Azure"
+# Replace [YOUR-INSTANCE-NAME] with your Azure OpenAI resource name
+# Format: https://YOUR-INSTANCE-NAME.openai.azure.com/openai/v1
 base_url = "https://[YOUR-INSTANCE-NAME].openai.azure.com/openai/v1"
+# Replace [YOUR-API-KEY] with your Azure OpenAI API key from Azure portal
 http_headers = { "api-key"= "[YOUR-API-KEY]"}
 wire_api = "responses"
+# Azure API version - use "preview" for latest features
 query_params = { api-version = "preview"}
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+

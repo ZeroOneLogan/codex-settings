@@ -1,30 +1,55 @@
-# Codex CLI Configuration
-# This configuration uses LiteLLM as the model provider gateway
-# See: https://docs.litellm.ai/docs/simple_proxy
+# Codex CLI Configuration - GitHub Copilot via LiteLLM
+# This configuration uses LiteLLM as a gateway to GitHub Copilot models
+# Prerequisites:
+#   - GitHub Copilot subscription
+#   - LiteLLM installed: pip install -U 'litellm[proxy]'
+#   - LiteLLM running: litellm --config ~/.codex/litellm_config.yaml
+# Documentation: https://docs.litellm.ai/docs/simple_proxy
+
+# Model Configuration
+# Available GitHub Copilot models via LiteLLM:
+#   - gpt-5: Latest reasoning model
+#   - gpt-5.1-codex: Enhanced reasoning
+#   - gpt-5.1-codex-max: Maximum reasoning
+#   - claude-opus-4.5: Anthropic's flagship
 model = "gpt-5"
 model_provider = "github"
-model_reasoning_summary = "detailed"
+
+# Reasoning Settings (for reasoning-capable models)
+model_reasoning_summary = "detailed"  # auto, concise, detailed, none
+model_reasoning_effort = "high"       # minimal, low, medium, high
+
+# Display Settings
 show_raw_agent_reasoning = true
 model_verbosity = "medium"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-model_reasoning_effort = "high"
 
+# Security Settings
+approval_policy = "on-request"  # untrusted, on-request, on-failure, never
+sandbox_mode = "workspace-write"  # read-only, workspace-write, danger-full-access
+
+# Feature Flags
 [features]
 skills = true
 
-# Model providers (LiteLLM as Github Copilot proxy)
+# LiteLLM Provider Configuration
+# Routes requests to LiteLLM proxy running on localhost
 [model_providers.github]
 name     = "OpenAI"
 base_url = "http://localhost:4000"
+# Default key for LiteLLM - change in production!
 http_headers = { "Authorization"= "Bearer sk-dummy"}
 wire_api = "chat"
 
-# MCP Tools
+# MCP (Model Context Protocol) Servers
+# Optional tools to extend Codex capabilities
+
+# Context7 - Smart context management
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
 
+# Claude Code integration
 [mcp_servers.claude]
 command = "claude"
 args = ["mcp", "serve"]
+
