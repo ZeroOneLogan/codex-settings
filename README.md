@@ -558,7 +558,8 @@ A: Create a `.md` file in `~/.codex/prompts/` with your prompt text. Use `$1`,
 
 **Q: Which model provider is best?**
 
-A: It depends on your needs:
+A: It depends on your needs. See our [comparison guide](docs/comparison.md) for
+detailed analysis:
 - **GitHub Copilot**: Best integration, multiple models, requires subscription
 - **ChatGPT**: Direct access, good for personal use
 - **Azure OpenAI**: Enterprise features, data residency, security controls
@@ -590,6 +591,12 @@ config, and check for any policy restrictions in `policy/`.
 **Q: Can skills call other skills?**
 
 A: Yes, skills can reference and invoke other skills within their instructions.
+
+**Q: How does Codex CLI compare to other AI coding assistants?**
+
+A: See our comprehensive [comparison guide](docs/comparison.md) comparing Codex
+CLI with GitHub Copilot, Claude Code, Cursor, and Aider. Each tool has different
+strengths - choose based on your workflow and needs.
 
 ## References
 
